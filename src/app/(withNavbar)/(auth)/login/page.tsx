@@ -86,9 +86,9 @@ export default function Login() {
               validationSchema={loginValidationSchema}
             >
               <CustomForm>
-                <InputText name="email" label="Usuario" />
+                <InputText name="email" label="Usuario" autocomplete="username" />
                 <div className="w-full">
-                  <InputText name="password" label="Clave" type="password" />
+                  <InputText name="password" label="Clave" type="password" autocomplete="current-password" />
                   <a
                     className="text-links mt-1 inline-block text-left w-full underline-offset-0 font-semibold"
                     target="_blank"

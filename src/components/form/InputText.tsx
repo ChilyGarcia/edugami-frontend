@@ -7,9 +7,10 @@ interface IProps {
   name: string;
   label: string;
   type?: "text" | "password" | "number";
+  autocomplete?: string;
 }
 
-const InputText = ({ name, label, type = "text" }: IProps) => {
+const InputText = ({ name, label, type = "text", autocomplete }: IProps) => {
   const [field, meta] = useField(name);
   const [hidden, setHidden] = useState<boolean>(true);
 
@@ -31,6 +32,7 @@ const InputText = ({ name, label, type = "text" }: IProps) => {
           id={`${name}Field`}
           className="w-full h-full bg-transparent focus:outline-none px-4 py-3 placeholder:text-tertiary text-primary"
           type={type === "password" ? (hidden ? "password" : "text") : type}
+          autoComplete={autocomplete}
           {...field}
         />
         {type === "password" ? (
