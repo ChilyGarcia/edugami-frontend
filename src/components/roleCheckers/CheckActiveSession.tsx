@@ -2,17 +2,17 @@
 
 import handleGetSession from "@/handlers/auth/handleGetSession";
 import { useUserStore } from "@/zustand/useUserStore";
+import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect } from "react";
 
+const RUTAS_SIN_CHECK_SESSION = ["/login"];
+
 const CheckActiveSession = () => {
+  const pathname = usePathname();
   const { user, loading, error, setUser, setError, setLoading } =
     useUserStore();
 
-    console.log(loading)
-
   const checkSession = useCallback(async () => {
-    console.log("Recovering session...");
-
     try {
       const session = await handleGetSession();
 
@@ -20,20 +20,19 @@ const CheckActiveSession = () => {
         return setError(session.message || "Unknown error");
       }
 
-      console.log("I found it");
-
       setUser(session.data);
     } catch (error) {
-      console.log(error);
       return setError((error as Error).message || "Unknown error");
     }
   }, [setError, setUser]);
 
   useEffect(() => {
+    if (RUTAS_SIN_CHECK_SESSION.some((ruta) => pathname?.startsWith(ruta))) {
+      return;
+    }
     setLoading();
-
     checkSession();
-  }, [checkSession, setLoading]);
+  }, [pathname, checkSession, setLoading]);
 
   return <></>;
 };
